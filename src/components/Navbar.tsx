@@ -25,16 +25,6 @@ const Navbar = () => {
               Import Users
             </Button>
           </Link>
-          <Link to="/manage-sites">
-            <Button 
-              variant={isActive("/manage-sites") ? "default" : "ghost"} 
-              size="sm"
-              className="gap-2"
-            >
-              <Settings size={16} />
-              Manage Sites
-            </Button>
-          </Link>
           <Link to="/contact">
             <Button 
               variant={isActive("/contact") ? "default" : "ghost"} 
