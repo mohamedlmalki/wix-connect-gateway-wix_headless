@@ -139,10 +139,13 @@ const AdminImport = () => {
                     results.push({ email: user.email, status: 'SUCCESS', message: 'Member created successfully.' });
                 } catch (error: any) {
                     // ★★★ THIS IS THE FIX ★★★
-                    // We will now safely check for the error message to prevent the crash.
-                    const errorMessage = error?.details?.applicationError?.code === 'MEMBER_ALREADY_EXISTS'
-                        ? 'Member already exists.'
-                        : (error.message || "An unknown error occurred.");
+                    // This new code safely checks for the error message and prevents the crash.
+                    let errorMessage = "An unknown error occurred.";
+                    if (error?.details?.applicationError?.code === 'MEMBER_ALREADY_EXISTS') {
+                        errorMessage = 'Member already exists.';
+                    } else if (error && error.message) {
+                        errorMessage = error.message;
+                    }
                     results.push({ email: user.email, status: 'ERROR', message: errorMessage });
                 }
                 setImportResults([...results]);
@@ -245,7 +248,7 @@ const AdminImport = () => {
                                                                 onCheckedChange={(checked) => {
                                                                     setSelectedMembers(prev =>
                                                                         checked
-                                                                            ? [...prev, { memberId: member.id!, contactId: member.contactId! }]
+                                                                            ? [...prev, { memberId: member.id!, contactId: m.contactId! }]
                                                                             : prev.filter(m => m.memberId !== member.id)
                                                                     );
                                                                 }}
